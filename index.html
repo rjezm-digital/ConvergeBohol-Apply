@@ -15,6 +15,10 @@ body {
     background:#f4f6fb;
 }
 
+body {
+    padding-bottom: 70px;
+}
+
 /* HEADER */
 header {
     max-width:1200px;
@@ -34,8 +38,16 @@ header {
     color:#6a11cb;
 }
 
-.logo img {
-    height:24px;
+.logo {
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.logo span {
+    font-size:20px;
+    font-weight:700;
+    color:#6a11cb;
 }
 
 /* HERO */
@@ -148,29 +160,44 @@ footer {
 
 /* FIXED STICKY */
 .sticky {
-    position:fixed;
-    bottom:0;
-    left:0;
-    width:100%;
-    background:#6a11cb;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:10px 15px;
-    box-sizing:border-box;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: linear-gradient(135deg,#6a11cb,#2575fc);
+    
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 12px 16px;
+    box-sizing: border-box;
+
+    z-index: 1000;
 }
 
-.sticky span {
-    font-size:14px;
+..sticky span {
+    font-size: 14px;
+    flex: 1;
+    padding-right: 10px;
 }
 
 .sticky button {
-    background:white;
-    color:#6a11cb;
-    border:none;
-    padding:8px 12px;
-    border-radius:20px;
-    white-space:nowrap;
+    background: white;
+    color: #6a11cb;
+    border: none;
+
+    padding: 8px 16px;
+    border-radius: 20px;
+
+    min-width: 80px;       /* prevents shrinking */
+    text-align: center;
+
+    flex-shrink: 0;        /* prevents cutoff */
+}
+
+.sticky button:hover {
+    background:#f1f1f1;
 }
 
 /* MESSENGER */
