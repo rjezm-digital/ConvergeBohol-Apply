@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Converge Fiber - Ran Dy</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+body {
+    margin:0;
+    font-family:Poppins;
+    background:#f4f6fb;
+}
+
+/* HEADER */
+header {
+    max-width:1200px;
+    margin:auto;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:15px 20px;
+    background:white;
+}
+
+..logo {
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-weight:700;
+    color:#6a11cb;
+}
+
+.logo img {
+    height:24px;
+}
+
+/* HERO */
+.hero {
+    background:linear-gradient(135deg,#6a11cb,#2575fc);
+    padding:50px 20px;
+    text-align:center;
+}
+
+.hero button {
+    background:white;
+    padding:12px 30px;
+    border-radius:30px;
+    border:none;
+}
+
+/* TABS */
+.tabs {
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    margin-top:-20px;
+    flex-wrap:wrap;
+}
+
+.tabs button {
+    padding:10px 18px;
+    border:none;
+    border-radius:20px;
+    background:#e0e3eb;
+}
+
+.tabs .active {
+    background:#6a11cb;
+    color:white;
+}
+
+/* PLANS */
+.plans {
+    max-width:1200px;
+    margin:auto;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:20px;
+    padding:40px 20px;
+}
+
+.card {
+    background:white;
+    padding:20px;
+    border-radius:20px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.05);
+}
+
+.price {
+    color:#6a11cb;
+    font-size:24px;
+    font-weight:700;
+}
+
+.speed {
+    display:flex;
+    align-items:center;
+    gap:6px;
+}
+
+.speed-icon {
+    width:18px;
+    height:18px;
+    border-radius:50%;
+    background:#6a11cb;
+    animation:pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% {transform:scale(1);}
+    50% {transform:scale(1.3);}
+    100% {transform:scale(1);}
+}
+
+.badge {
+    background:#2575fc;
+    color:white;
+    padding:4px 10px;
+    border-radius:10px;
+    font-size:11px;
+    margin-top:6px;
+    display:inline-block;
+}
+
+/* BUTTONS */
+.btn {
+    width:100%;
+    padding:10px;
+    border:none;
+    border-radius:10px;
+    margin-top:10px;
+}
+
+.map { background:#f0ad00; color:white; }
+.apply { background:#6a11cb; color:white; }
+
+/* FOOTER */
+footer {
+    background:#0d1b2a;
+    color:white;
+    text-align:center;
+    padding:15px;
+}
+
+/* FIXED STICKY */
+.sticky {
+    position:fixed;
+    bottom:0;
+    left:0;
+    width:100%;
+    background:#6a11cb;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:10px 15px;
+    box-sizing:border-box;
+}
+
+.sticky span {
+    font-size:14px;
+}
+
+.sticky button {
+    background:white;
+    color:#6a11cb;
+    border:none;
+    padding:8px 12px;
+    border-radius:20px;
+    white-space:nowrap;
+}
+
+/* MESSENGER */
+.messenger {
+    position:fixed;
+    bottom:80px;
+    right:20px;
+    background:#0084ff;
+    color:white;
+    padding:12px 18px;
+    border-radius:30px;
+}
+
+/* SKELETON */
+.skeleton {
+    height:180px;
+    background:linear-gradient(90deg,#eee,#ddd,#eee);
+    animation:loading 1.2s infinite;
+    border-radius:20px;
+}
+
+@keyframes loading {
+    0% {background-position:-200px;}
+    100% {background-position:200px;}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">
+    <img src="logo.png">
+    <span>CONVERGE</span>
+</div>
+    <div>
+        Ran Dy | 0976-400-0096
+        <button onclick="quickApply()">Apply</button>
+    </div>
+</header>
+
+<div class="hero">
+    <button onclick="quickApply()">Apply Now</button>
+</div>
+
+<div class="tabs">
+    <button onclick="showPlans('fiber',this)" class="active">Fiber</button>
+    <button onclick="showPlans('super',this)">Bundles</button>
+    <button onclick="showPlans('netflix',this)">Netflix</button>
+    <button onclick="showPlans('tod',this)">Time of Day</button>
+    <button onclick="showPlans('flexibiz',this)">FlexiBiz</button>
+    <button onclick="showPlans('microbiz',this)">MicroBiz</button>
+</div>
+
+<div class="plans" id="plans"></div>
+
+<footer>
+Ran Dy | 0976-400-0096 | convergebohol@icloud.com |
+<a href="https://www.facebook.com/share/185wdLb2uy/">Facebook</a>
+<br>© 2026 Converge Agent System
+</footer>
+
+<a href="https://www.facebook.com/share/185wdLb2uy/" class="messenger">Chat</a>
+
+<div class="sticky">
+    <span>Apply for Converge Fiber Now</span>
+    <button onclick="quickApply()">Apply</button>
+</div>
+
+<script>
+
+const MAP_URL="https://rjezm-digital.github.io/ConvergeBohol/view.html";
+const FORM_URL="https://rjezm-digital.github.io/form/";
+
+const plans={
+fiber:{
+"FiberX 1500":{price:"₱1,500",speed:"300 Mbps"},
+"FiberX 2000":{price:"₱2,000",speed:"500 Mbps"},
+"FiberX 2500":{price:"₱2,500",speed:"700 Mbps"},
+"FiberX 3500":{price:"₱3,500",speed:"1 Gbps"}
+},
+super:{
+"PLAY PLAN":{price:"₱1,349",speed:"200 Mbps + TV"},
+"MAX PLAN":{price:"₱1,599",speed:"400 Mbps + TV"},
+"ULTRA PLAN":{price:"₱2,599",speed:"800 Mbps + TV"}
+},
+netflix:{
+"PLAN 1558":{price:"₱1,558",speed:"200 Mbps"},
+"PLAN 1798":{price:"₱1,798",speed:"325 Mbps"},
+"PLAN 1998":{price:"₱1,998",speed:"350 Mbps"},
+"PLAN 2298":{price:"₱2,298",speed:"500 Mbps"}
+},
+tod:{
+"TOD 1699":{price:"₱1,699",speed:"500/300 Mbps"},
+"TOD 3000":{price:"₱3,000",speed:"1000/700 Mbps"}
+},
+flexibiz:{
+"FlexiBiz 2000":{price:"₱2,000",speed:"100/50 Mbps"},
+"FlexiBiz 4000":{price:"₱4,000",speed:"200/100 Mbps"},
+"FlexiBiz 8000":{price:"₱8,000",speed:"400/200 Mbps"},
+"FlexiBiz 12000":{price:"₱12,000",speed:"600/300 Mbps"},
+"FlexiBiz 15000":{price:"₱15,000",speed:"800/400 Mbps"},
+"FlexiBiz 18000":{price:"₱18,000",speed:"1000/500 Mbps"}
+},
+microbiz:{
+"MicroBiz Max 75":{price:"₱1,449",speed:"75 Mbps"},
+"MicroBiz Max 100":{price:"₱1,599",speed:"100 Mbps"},
+"MicroBiz Max 150":{price:"₱1,799",speed:"150 Mbps"},
+"MicroBiz Max 250":{price:"₱2,099",speed:"250 Mbps"},
+"MicroBiz Max 400":{price:"₱2,499",speed:"400 Mbps"}
+}
+};
+
+function showSkeleton(){
+    let html="";
+    for(let i=0;i<4;i++){
+        html+=`<div class="skeleton"></div>`;
+    }
+    document.getElementById("plans").innerHTML=html;
+}
+
+function showPlans(type,el){
+    showSkeleton();
+
+    document.querySelectorAll(".tabs button").forEach(b=>b.classList.remove("active"));
+    if(el) el.classList.add("active");
+
+    setTimeout(()=>{
+        let html="";
+        Object.entries(plans[type]).forEach(([name,data])=>{
+            html+=`
+            <div class="card">
+                <h3>${name}</h3>
+                <div class="price">${data.price}</div>
+                <div class="speed">
+                    <div class="speed-icon"></div>
+                    ${data.speed}
+                </div>
+                <div class="badge">WiFi 6 Ready</div>
+                <button class="btn map" onclick="checkMap('${name}')">Check Availability</button>
+                <button class="btn apply" onclick="apply('${name}')">Apply Now</button>
+            </div>`;
+        });
+        document.getElementById("plans").innerHTML=html;
+    },400);
+}
+
+function checkMap(plan){
+    window.location.href=MAP_URL+"?plan="+encodeURIComponent(plan);
+}
+
+function apply(plan){
+    window.location.href=FORM_URL+"?plan="+encodeURIComponent(plan);
+}
+
+function quickApply(){
+    window.location.href=FORM_URL;
+}
+
+window.onload=()=>showPlans("fiber",document.querySelector(".tabs button"));
+
+</script>
+
+</body>
+</html>
