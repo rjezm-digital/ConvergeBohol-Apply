@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+
+<style>
+body{
+font-family:Poppins;
+margin:0;
+background:#f4f6fb;
+}
+
+header{
+background:#6a11cb;
+color:white;
+padding:15px;
+text-align:center;
+}
+
+.container{
+padding:20px;
+}
+
+.card{
+background:white;
+padding:15px;
+border-radius:15px;
+margin-bottom:15px;
+box-shadow:0 5px 10px rgba(0,0,0,0.05);
+}
+
+img{
+width:100%;
+max-width:200px;
+border-radius:10px;
+margin-top:10px;
+}
+
+.btn{
+margin-top:10px;
+padding:8px 12px;
+border:none;
+border-radius:10px;
+cursor:pointer;
+}
+
+.install{background:green;color:white;}
+.delete{background:red;color:white;}
+.download{background:#007bff;color:white;}
+</style>
+</head>
+
+<body>
+
+<header>
+<h2>📊 Converge Admin Dashboard</h2>
+</header>
+
+<div class="container" id="list"></div>
+
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
+<script>
+
+// 🔥 SAME CONFIG
+firebase.initializeApp({
+apiKey:"AIzaSyBwrJprjuU4BywFapZyw_SsBcsJAYo5OPU",
+authDomain:"convergecrm-7c237.firebaseapp.com",
+projectId:"convergecrm-7c237"
+});
+
+const db = firebase.firestore();
+
+// REALTIME
+db.collection("applications")
+.onSnapshot(snapshot => {
+
+    const list = document.getElementById("list");
+    list.innerHTML = "";
+
+    snapshot.forEach(doc => {
+
+        const d = doc.data();
+
+        list.innerHTML += `
+        <div class="card">
+            <h3>${d.name}</h3>
+            <p><b>Plan:</b> ${d.plan}</p>
+            <p><b>Address:</b> ${d.address}</p>
+            <p><b>Contact:</b> ${d.phone}</p>
+            <p>Status: ${d.status}</p>
+
+            <h4>ID</h4>
+            <img src="${d.idURL}">
+            <br>
+            <a href="${d.idURL}" target="_blank">
+                <button class="btn download">Download ID</button>
+            </a>
+
+            <h4>Signature</h4>
+            <img src="${d.signatureURL}">
+            <br>
+            <a href="${d.signatureURL}" target="_blank">
+                <button class="btn download">Download Signature</button>
+            </a>
+
+            <h4>PDF</h4>
+            <a href="${d.pdfURL}" target="_blank">
+                <button class="btn download">View PDF</button>
+            </a>
+
+            <br>
+
+            <button class="btn install" onclick="markInstalled('${doc.id}')">
+                ✔ Installed
+            </button>
+
+            <button class="btn delete" onclick="deleteApp('${doc.id}')">
+                🗑 Delete
+            </button>
+        </div>
+        `;
+    });
+
+});
+
+// UPDATE
+function markInstalled(id){
+db.collection("applications").doc(id).update({
+status:"Installed"
+});
+}
+
+// DELETE
+function deleteApp(id){
+if(confirm("Delete?")){
+db.collection("applications").doc(id).delete();
+}
+}
+
+</script>
+
+</body>
+</html>
