@@ -65,26 +65,37 @@ display:none;
 
 .card{
 background:white;
-padding:15px;
+padding:20px;
 border-radius:15px;
-margin-bottom:15px;
-box-shadow:0 5px 10px rgba(0,0,0,0.05);
+margin-bottom:20px;
+box-shadow:0 10px 20px rgba(0,0,0,0.08);
+display:grid;
+grid-template-columns:120px 1fr;
+gap:15px;
+align-items:start;
 }
 
 img{
 width:100%;
-max-width:200px;
+max-width:120px;
+height:120px;
+object-fit:cover;
 border-radius:10px;
+}
+
+.actions{
 margin-top:10px;
+display:flex;
+flex-wrap:wrap;
+gap:8px;
 }
 
 .btn{
-margin-top:10px;
 padding:8px 12px;
 border:none;
-border-radius:10px;
+border-radius:8px;
 cursor:pointer;
-width:auto;
+font-size:13px;
 }
 
 .install{background:green;color:white;}
@@ -129,6 +140,10 @@ projectId:"convergecrm-7c237"
 
 const db = firebase.firestore();
 const auth = firebase.auth();
+
+function getStatusColor(status){
+return status === "Installed" ? "green" : "orange";
+}
 
 // 🔐 LOGIN (ONLY YOUR EMAIL)
 function login(){
@@ -186,18 +201,18 @@ db.collection("applications")
             <p><b>Address:</b> ${d.address}</p>
             <p><b>Contact:</b> ${d.phone}</p>
 
-            <p>
-            Status:
-            <span style="
-            padding:5px 10px;
-            border-radius:8px;
-            color:white;
-            background:${d.status === "Installed" ? "green" : "orange"};
-            ">
-            ${d.status}
-            </span>
-            </p>
-
+            <p<p>
+Status: 
+<span style="
+background:${getStatusColor(d.status)};
+color:white;
+padding:4px 10px;
+border-radius:8px;
+font-size:12px;
+">
+${d.status}
+</span>
+</p>
             <h4>ID</h4>
             <img src="${d.idURL}">
             <a href="${d.idURL}" target="_blank">
