@@ -2,20 +2,22 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin Dashboard</title>
+<title>Converge Admin</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
 
 <style>
+*{box-sizing:border-box;}
+
 body{
 font-family:Poppins;
 margin:0;
-background:#f4f6fb;
+background:linear-gradient(135deg,#0d2b45,#1b4f72);
 }
 
 /* HEADER */
 header{
-background:#6a11cb;
+background:linear-gradient(90deg,#6a11cb,#2575fc);
 color:white;
 padding:15px;
 text-align:center;
@@ -23,8 +25,25 @@ text-align:center;
 
 #logoutBtn{
 display:none;
-background:#333;
+background:#222;
 margin-top:10px;
+padding:10px;
+border-radius:10px;
+}
+
+/* SEARCH */
+.search-box{
+max-width:500px;
+margin:15px auto;
+padding:0 15px;
+}
+
+.search-box input{
+width:100%;
+padding:12px;
+border-radius:12px;
+border:none;
+outline:none;
 }
 
 /* LOGIN */
@@ -34,7 +53,6 @@ margin:80px auto;
 background:white;
 padding:20px;
 border-radius:15px;
-box-shadow:0 5px 10px rgba(0,0,0,0.1);
 }
 
 input{
@@ -46,104 +64,153 @@ border:1px solid #ddd;
 }
 
 button{
-width:100%;
-padding:12px;
-margin-top:15px;
+padding:10px;
 border:none;
 border-radius:10px;
-background:#007bff;
-color:white;
-font-weight:600;
 cursor:pointer;
+font-weight:600;
 }
 
 /* DASHBOARD */
 .container{
-padding:20px;
-display:none;
-}
-
-.card{
-background:white;
-padding:20px;
-border-radius:15px;
-margin-bottom:20px;
-box-shadow:0 10px 25px rgba(0,0,0,0.08);
-display:flex;
-gap:20px;
-align-items:flex-start;
-}
-
-img{
-width:100%;
-max-width:120px;
-height:120px;
-object-fit:cover;
-border-radius:10px;
-}
-
-.actions{
-margin-top:10px;
-display:flex;
-flex-wrap:wrap;
-gap:8px;
-}
-
-.left{
-display:flex;
-flex-direction:column;
+padding:12px;
+display:grid;
+grid-template-columns:repeat(2, minmax(0,1fr)); /* ✅ strict 2 columns */
 gap:10px;
 }
 
-.right{
-flex:1;
+/* CARD */
+.card{
+width:100%;
+min-width:0; /* ✅ prevents stretching */
+background:white;
+border-radius:12px;
+padding:12px;
+display:grid;
+grid-template-columns:80px 1fr;
+gap:10px;
 }
 
-.section{
-margin-top:10px;
+/* IMAGE */
+.left img{
+width:100%;
+height:65px;
+object-fit:cover;
+border-radius:8px;
+}
+
+/* RIGHT */
+.right h3{
+font-size:13px;
+margin:0;
 }
 
 .label{
-font-size:13px;
-color:#888;
+font-size:10px;
 }
 
 .value{
-font-weight:600;
-margin-bottom:6px;
+font-size:11px;
 }
 
+/* STATUS */
 .status{
 display:inline-block;
-padding:4px 10px;
-border-radius:8px;
+padding:3px 8px;
+border-radius:6px;
 color:white;
+font-size:11px;
+}
+
+/* BUTTON GRID (same size as image) */
+.btn-grid{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:4px;
+margin-top:6px;
+}
+
+.btn{
+height:28px;
+font-size:11px;
+padding:0;
+}
+
+.topbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:12px 15px;
+background:linear-gradient(90deg,#6a11cb,#2575fc);
+color:white;
+position:sticky;
+top:0;
+z-index:100;
+box-shadow:0 4px 15px rgba(0,0,0,0.2);
+}
+
+/* LEFT */
+.left-header h2{
+margin:0;
+font-size:16px;
+}
+
+.sub{
+font-size:11px;
+opacity:0.8;
+}
+
+/* RIGHT */
+.right-header{
+display:flex;
+gap:10px;
+align-items:center;
+}
+
+.right-header input{
+padding:8px 10px;
+border-radius:10px;
+border:none;
+outline:none;
+width:150px;
+font-size:12px;
+}
+
+@media(max-width:600px){
+.container{
+grid-template-columns:1fr; /* 1 column on phone */
+}
+}
+
+/* LOGOUT */
+#logoutBtn{
+background:#222;
+color:white;
+padding:8px 12px;
+border-radius:8px;
 font-size:12px;
 }
 
 .install{background:#28a745;color:white;}
 .delete{background:#dc3545;color:white;}
 .download{background:#007bff;color:white;}
-
-.btn{
-padding:8px 12px;
-border:none;
-border-radius:8px;
-cursor:pointer;
-font-size:13px;
-}
-
-.install{background:green;color:white;}
-.delete{background:red;color:white;}
-.download{background:#007bff;color:white;}
 </style>
 </head>
 
 <body>
 
-<header>
-<h2>📊 Converge Admin Dashboard</h2>
-<button id="logoutBtn" onclick="logout()">Logout</button>
+<header class="topbar">
+
+<div class="left-header">
+    <h2>📊 Converge Admin</h2>
+    <span class="sub">Dashboard</span>
+</div>
+
+<div class="right-header">
+    <input type="text" id="search" placeholder="Search name...">
+    <button id="logoutBtn" onclick="logout()">Logout</button>
+</div>
+
 </header>
 
 <!-- LOGIN -->
@@ -166,7 +233,7 @@ font-size:13px;
 
 <script>
 
-// 🔥 CONFIG
+// CONFIG
 firebase.initializeApp({
 apiKey:"AIzaSyBwrJprjuU4BywFapZyw_SsBcsJAYo5OPU",
 authDomain:"convergecrm-7c237.firebaseapp.com",
@@ -177,144 +244,123 @@ const db = firebase.firestore();
 const auth = firebase.auth();
 
 function getStatusColor(status){
-return status === "Installed" ? "green" : "orange";
+return status === "Installed" ? "#28a745" : "#ff9800";
 }
 
-// 🔐 LOGIN (ONLY YOUR EMAIL)
+// LOGIN
 function login(){
-const email = document.getElementById("email").value;
-const pass = document.getElementById("password").value;
-
-auth.signInWithEmailAndPassword(email, pass)
-.then(user=>{
-    if(user.user.email !== "admin@converge.com"){
-        alert("Not authorized!");
-        auth.signOut();
-    }
-})
-.catch(err=>{
-    alert("Login Failed");
-});
+auth.signInWithEmailAndPassword(
+email.value,
+password.value
+).catch(()=>alert("Login Failed"));
 }
 
-// 🔐 LOGOUT
 function logout(){
 auth.signOut();
 }
 
-// 🔐 AUTH STATE
+// AUTH
 auth.onAuthStateChanged(user=>{
-if(user && user.email === "admin@converge.com"){
-    document.getElementById("loginBox").style.display="none";
-    document.getElementById("dashboard").style.display="block";
-    document.getElementById("logoutBtn").style.display="inline-block";
-    loadData();
+if(user){
+loginBox.style.display="none";
+dashboard.style.display="block";
+logoutBtn.style.display="inline-block";
+loadData();
 }else{
-    document.getElementById("loginBox").style.display="block";
-    document.getElementById("dashboard").style.display="none";
-    document.getElementById("logoutBtn").style.display="none";
+loginBox.style.display="block";
+dashboard.style.display="none";
+logoutBtn.style.display="none";
 }
 });
 
-// 🔥 LOAD DATA
+// LOAD DATA + SEARCH
 function loadData(){
-db.collection("applications")
-.onSnapshot(snapshot => {
 
-    const list = document.getElementById("list");
-    list.innerHTML = "";
+const searchInput = document.getElementById("search");
 
-    snapshot.forEach(doc => {
+db.collection("applications").onSnapshot(snapshot=>{
 
-        const d = doc.data();
+let html = "";
 
-        list.innerHTML += `
+snapshot.forEach(doc=>{
+const d = doc.data();
+
+// 🔍 SEARCH FILTER
+if(searchInput.value &&
+!d.name?.toLowerCase().includes(searchInput.value.toLowerCase())){
+return;
+}
+
+html += `
 <div class="card">
 
-    <!-- LEFT (IMAGES) -->
-    <div class="left">
-        <img src="${d.idURL}">
-        <img src="${d.sigURL}">
-    </div>
+<div class="left">
+<img src="${d.idURL}">
+<img src="${d.sigURL}">
+</div>
 
-    <!-- RIGHT (DATA) -->
-    <div class="right">
+<div class="right">
+<h3>${d.name || "No Name"}</h3>
 
-        <h3>${d.name}</h3>
+<div class="label">Plan</div>
+<div class="value">${d.plan}</div>
 
-        <div class="section">
-            <div class="label">Plan</div>
-            <div class="value">${d.plan}</div>
+<div class="label">Address</div>
+<div class="value">${d.address}</div>
 
-            <div class="label">Address</div>
-            <div class="value">${d.address}</div>
+<div class="label">Contact</div>
+<div class="value">${d.phone}</div>
 
-            <div class="label">Contact</div>
-            <div class="value">${d.phone}</div>
+<div class="label">Status</div>
+<span class="status" style="background:${getStatusColor(d.status)}">
+${d.status}
+</span>
 
-            <div class="label">Status</div>
-            <span class="status" style="background:${getStatusColor(d.status)}">
-                ${d.status}
-            </span>
-        </div>
+<div class="btn-grid">
 
-        <div class="section actions">
-            <a href="${d.idURL}" target="_blank">
-                <button class="btn download">ID</button>
-            </a>
+<a href="${d.idURL}" target="_blank">
+<button class="btn download">ID</button>
+</a>
 
-            <a href="${d.sigURL}" target="_blank">
-                <button class="btn download">Signature</button>
-            </a>
+<a href="${d.sigURL}" target="_blank">
+<button class="btn download">Sign</button>
+</a>
 
-            <button class="btn download" onclick="downloadAll('${d.idURL}','${d.sigURL}')">
-                Download All
-            </button>
+<button class="btn download"
+onclick="downloadAll('${d.idURL}','${d.sigURL}')">
+All
+</button>
 
-            ${d.pdfURL ? `
-            <a href="${d.pdfURL}" target="_blank">
-                <button class="btn download">PDF</button>
-            </a>
-            ` : ""}
-        </div>
+<button class="btn install"
+onclick="markInstalled('${doc.id}')">
+✔
+</button>
 
-        <div class="section actions">
-            <button class="btn install" onclick="markInstalled('${doc.id}')">
-                ✔ Installed
-            </button>
-
-            <button class="btn delete" onclick="deleteApp('${doc.id}')">
-                🗑 Delete
-            </button>
-        </div>
-
-    </div>
+<button class="btn delete"
+onclick="deleteApp('${doc.id}')">
+🗑
+</button>
 
 </div>
+
+</div>
+</div>
 `;
-    });
+});
+
+document.getElementById("list").innerHTML = html;
 
 });
+
+// 🔍 LIVE SEARCH
+searchInput.addEventListener("input", loadData);
+
 }
 
-// ✅ DOWNLOAD ALL
-function downloadAll(idURL, sigURL){
-
-    const a1 = document.createElement("a");
-    a1.href = idURL;
-    a1.download = "ID.jpg";
-    document.body.appendChild(a1);
-    a1.click();
-    document.body.removeChild(a1);
-
-    setTimeout(()=>{
-        const a2 = document.createElement("a");
-        a2.href = sigURL;
-        a2.download = "Signature.jpg";
-        document.body.appendChild(a2);
-        a2.click();
-        document.body.removeChild(a2);
-    }, 500);
+// DOWNLOAD ALL
+function downloadAll(idURL,sigURL){
+window.open(idURL);
+setTimeout(()=>window.open(sigURL),500);
 }
 
 // UPDATE
