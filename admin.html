@@ -13,6 +13,7 @@ margin:0;
 background:#f4f6fb;
 }
 
+/* HEADER */
 header{
 background:#6a11cb;
 color:white;
@@ -20,8 +21,46 @@ padding:15px;
 text-align:center;
 }
 
+#logoutBtn{
+display:none;
+background:#333;
+margin-top:10px;
+}
+
+/* LOGIN */
+#loginBox{
+max-width:400px;
+margin:80px auto;
+background:white;
+padding:20px;
+border-radius:15px;
+box-shadow:0 5px 10px rgba(0,0,0,0.1);
+}
+
+input{
+width:100%;
+padding:12px;
+margin-top:10px;
+border-radius:10px;
+border:1px solid #ddd;
+}
+
+button{
+width:100%;
+padding:12px;
+margin-top:15px;
+border:none;
+border-radius:10px;
+background:#007bff;
+color:white;
+font-weight:600;
+cursor:pointer;
+}
+
+/* DASHBOARD */
 .container{
 padding:20px;
+display:none;
 }
 
 .card{
@@ -45,6 +84,7 @@ padding:8px 12px;
 border:none;
 border-radius:10px;
 cursor:pointer;
+width:auto;
 }
 
 .install{background:green;color:white;}
@@ -57,17 +97,30 @@ cursor:pointer;
 
 <header>
 <h2>📊 Converge Admin Dashboard</h2>
+<button id="logoutBtn" onclick="logout()">Logout</button>
 </header>
 
-<div class="container" id="list"></div>
+<!-- LOGIN -->
+<div id="loginBox">
+<h3>Admin Login</h3>
+<input id="email" placeholder="Email">
+<input id="password" type="password" placeholder="Password">
+<button onclick="login()">Login</button>
+</div>
+
+<!-- DASHBOARD -->
+<div class="container" id="dashboard">
+<div id="list"></div>
+</div>
 
 <!-- Firebase -->
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 
 <script>
 
-// 🔥 SAME CONFIG
+// 🔥 CONFIG
 firebase.initializeApp({
 apiKey:"AIzaSyBwrJprjuU4BywFapZyw_SsBcsJAYo5OPU",
 authDomain:"convergecrm-7c237.firebaseapp.com",
@@ -75,8 +128,46 @@ projectId:"convergecrm-7c237"
 });
 
 const db = firebase.firestore();
+const auth = firebase.auth();
 
-// REALTIME
+// 🔐 LOGIN (ONLY YOUR EMAIL)
+function login(){
+const email = document.getElementById("email").value;
+const pass = document.getElementById("password").value;
+
+auth.signInWithEmailAndPassword(email, pass)
+.then(user=>{
+    if(user.user.email !== "admin@converge.com"){
+        alert("Not authorized!");
+        auth.signOut();
+    }
+})
+.catch(err=>{
+    alert("Login Failed");
+});
+}
+
+// 🔐 LOGOUT
+function logout(){
+auth.signOut();
+}
+
+// 🔐 AUTH STATE
+auth.onAuthStateChanged(user=>{
+if(user && user.email === "admin@converge.com"){
+    document.getElementById("loginBox").style.display="none";
+    document.getElementById("dashboard").style.display="block";
+    document.getElementById("logoutBtn").style.display="inline-block";
+    loadData();
+}else{
+    document.getElementById("loginBox").style.display="block";
+    document.getElementById("dashboard").style.display="none";
+    document.getElementById("logoutBtn").style.display="none";
+}
+});
+
+// 🔥 LOAD DATA
+function loadData(){
 db.collection("applications")
 .onSnapshot(snapshot => {
 
@@ -89,45 +180,83 @@ db.collection("applications")
 
         list.innerHTML += `
         <div class="card">
+
             <h3>${d.name}</h3>
             <p><b>Plan:</b> ${d.plan}</p>
             <p><b>Address:</b> ${d.address}</p>
             <p><b>Contact:</b> ${d.phone}</p>
-            <p>Status: ${d.status}</p>
+
+            <p>
+            Status:
+            <span style="
+            padding:5px 10px;
+            border-radius:8px;
+            color:white;
+            background:${d.status === "Installed" ? "green" : "orange"};
+            ">
+            ${d.status}
+            </span>
+            </p>
 
             <h4>ID</h4>
             <img src="${d.idURL}">
-            <br>
             <a href="${d.idURL}" target="_blank">
                 <button class="btn download">Download ID</button>
             </a>
 
             <h4>Signature</h4>
-            <img src="${d.signatureURL}">
-            <br>
-            <a href="${d.signatureURL}" target="_blank">
+            <img src="${d.sigURL}">
+            <a href="${d.sigURL}" target="_blank">
                 <button class="btn download">Download Signature</button>
             </a>
 
+            <button class="btn download" onclick="downloadAll('${d.idURL}','${d.sigURL}')">
+            ⬇ Download All
+            </button>
+
+            ${d.pdfURL ? `
             <h4>PDF</h4>
             <a href="${d.pdfURL}" target="_blank">
-                <button class="btn download">View PDF</button>
+            <button class="btn download">View PDF</button>
             </a>
+            ` : ""}
 
             <br>
 
             <button class="btn install" onclick="markInstalled('${doc.id}')">
-                ✔ Installed
+            ✔ Installed
             </button>
 
             <button class="btn delete" onclick="deleteApp('${doc.id}')">
-                🗑 Delete
+            🗑 Delete
             </button>
+
         </div>
         `;
     });
 
 });
+}
+
+// ✅ DOWNLOAD ALL
+function downloadAll(idURL, sigURL){
+
+    const a1 = document.createElement("a");
+    a1.href = idURL;
+    a1.download = "ID.jpg";
+    document.body.appendChild(a1);
+    a1.click();
+    document.body.removeChild(a1);
+
+    setTimeout(()=>{
+        const a2 = document.createElement("a");
+        a2.href = sigURL;
+        a2.download = "Signature.jpg";
+        document.body.appendChild(a2);
+        a2.click();
+        document.body.removeChild(a2);
+    }, 500);
+}
 
 // UPDATE
 function markInstalled(id){
