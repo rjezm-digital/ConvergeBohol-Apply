@@ -154,18 +154,67 @@ margin-bottom:6px;
 
 /* BUTTON GRID */
 .btn-grid{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:4px;
+display:flex;
+flex-wrap:wrap;
+gap:6px;
+margin-top:6px;
 }
 
-/* BUTTON */
 .btn{
-height:28px;
+display:flex;
+align-items:center;
+justify-content:center;
+gap:4px;
+padding:6px 8px;
 font-size:10px;
 border:none;
-border-radius:6px;
+border-radius:8px;
 cursor:pointer;
+min-width:48px;
+height:28px;
+
+background:rgba(255,255,255,0.08);
+color:white;
+backdrop-filter:blur(6px);
+
+transition:0.2s;
+}
+
+/* HOVER EFFECT */
+.btn:hover{
+transform:scale(1.05);
+background:rgba(255,255,255,0.15);
+}
+
+/* COLORS (soft, not harsh) */
+.btn.id{color:#4dabf7;}
+.btn.sign{color:#a78bfa;}
+.btn.all{color:#38bdf8;}
+.btn.install{color:#22c55e;}
+.btn.delete{color:#ef4444;}
+
+.card{
+background:rgba(255,255,255,0.08);
+backdrop-filter:blur(12px);
+border-radius:16px;
+padding:12px;
+display:grid;
+grid-template-columns:70px 1fr;
+gap:10px;
+box-shadow:0 8px 25px rgba(0,0,0,0.25);
+border:1px solid rgba(255,255,255,0.1);
+transition:0.25s;
+}
+
+.card:hover{
+transform:translateY(-3px) scale(1.01);
+box-shadow:0 15px 30px rgba(0,0,0,0.35);
+}
+
+.right{
+display:flex;
+flex-direction:column;
+justify-content:space-between;
 }
 
 .download{background:#007bff;color:white;}
@@ -267,6 +316,9 @@ html += `
 <div class="label">Plan</div>
 <div class="value">${d.plan}</div>
 
+<div class="label">Address</div>
+<div class="value">${d.address || "No address"}</div>
+
 <div class="label">Contact</div>
 <div class="value">${d.phone}</div>
 
@@ -276,26 +328,23 @@ ${d.status}
 
 <div class="btn-grid">
 
-<a href="${d.idURL}" target="_blank">
-<button class="btn download">ID</button>
-</a>
-
-<a href="${d.sigURL}" target="_blank">
-<button class="btn download">Sign</button>
-</a>
-
-<button class="btn download"
-onclick="downloadAll('${d.idURL}','${d.sigURL}')">
-All
+<button class="btn id" onclick="window.open('${d.idURL}')">
+📄 ID
 </button>
 
-<button class="btn install"
-onclick="markInstalled('${doc.id}')">
-✔
+<button class="btn sign" onclick="window.open('${d.sigURL}')">
+✍️ Sign
 </button>
 
-<button class="btn delete"
-onclick="deleteApp('${doc.id}')">
+<button class="btn all" onclick="downloadAll('${d.idURL}','${d.sigURL}')">
+⬇ All
+</button>
+
+<button class="btn install" onclick="markInstalled('${doc.id}')">
+✔ Done
+</button>
+
+<button class="btn delete" onclick="deleteApp('${doc.id}')">
 🗑
 </button>
 
