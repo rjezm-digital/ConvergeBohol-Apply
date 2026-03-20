@@ -2,234 +2,219 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Converge Admin</title>
+<title>Converge Admin Pro</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
 *{box-sizing:border-box;}
 
 body{
-font-family:Poppins;
 margin:0;
+font-family:Poppins;
 background:linear-gradient(135deg,#0d2b45,#1b4f72);
+color:white;
 }
 
 /* HEADER */
 header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:14px 16px;
 background:linear-gradient(90deg,#6a11cb,#2575fc);
-color:white;
-padding:15px;
-text-align:center;
+box-shadow:0 5px 15px rgba(0,0,0,0.2);
+}
+
+header h2{
+margin:0;
+font-size:16px;
+}
+
+.top-controls{
+display:flex;
+gap:8px;
+}
+
+header input{
+padding:8px 10px;
+border-radius:10px;
+border:none;
+outline:none;
+width:150px;
 }
 
 #logoutBtn{
-display:none;
-background:#222;
-margin-top:10px;
-padding:10px;
-border-radius:10px;
-}
-
-/* SEARCH */
-.search-box{
-max-width:500px;
-margin:15px auto;
-padding:0 15px;
-}
-
-.search-box input{
-width:100%;
-padding:12px;
-border-radius:12px;
+background:#111;
+color:white;
 border:none;
-outline:none;
-}
-
-/* LOGIN */
-#loginBox{
-max-width:400px;
-margin:80px auto;
-background:white;
-padding:20px;
-border-radius:15px;
-}
-
-input{
-width:100%;
-padding:12px;
-margin-top:10px;
-border-radius:10px;
-border:1px solid #ddd;
-}
-
-button{
-padding:10px;
-border:none;
+padding:8px 12px;
 border-radius:10px;
 cursor:pointer;
-font-weight:600;
 }
 
-/* DASHBOARD */
-.container{
-padding:12px;
+/* STATS */
+.stats{
 display:grid;
-grid-template-columns:repeat(2, minmax(0,1fr)); /* ✅ strict 2 columns */
+grid-template-columns:repeat(3,1fr);
 gap:10px;
+padding:10px;
+}
+
+.stat{
+background:rgba(255,255,255,0.1);
+backdrop-filter:blur(10px);
+padding:12px;
+border-radius:12px;
+text-align:center;
+}
+
+.stat h3{
+margin:0;
+font-size:18px;
+}
+
+.stat p{
+margin:0;
+font-size:11px;
+opacity:0.8;
+}
+
+/* GRID */
+.container{
+padding:10px;
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:10px;
+}
+
+@media(max-width:600px){
+.container{
+grid-template-columns:1fr;
+}
 }
 
 /* CARD */
 .card{
-width:100%;
-min-width:0; /* ✅ prevents stretching */
-background:white;
-border-radius:12px;
-padding:12px;
+background:rgba(0,0,0,0.7);
+border-radius:14px;
+padding:10px;
 display:grid;
-grid-template-columns:80px 1fr;
+grid-template-columns:70px 1fr;
 gap:10px;
+transition:0.2s;
 }
 
-/* IMAGE */
+.card:hover{
+transform:scale(1.02);
+}
+
+/* LEFT IMAGES */
+.left{
+display:flex;
+flex-direction:column;
+gap:6px;
+}
+
 .left img{
 width:100%;
-height:65px;
+height:60px;
 object-fit:cover;
-border-radius:8px;
+border-radius:6px;
 }
 
 /* RIGHT */
 .right h3{
-font-size:13px;
 margin:0;
+font-size:13px;
+font-weight:600;
 }
 
 .label{
 font-size:10px;
+color:#aaa;
 }
 
 .value{
 font-size:11px;
+margin-bottom:4px;
 }
 
 /* STATUS */
 .status{
 display:inline-block;
 padding:3px 8px;
-border-radius:6px;
-color:white;
-font-size:11px;
+border-radius:8px;
+font-size:10px;
+margin-bottom:6px;
 }
 
-/* BUTTON GRID (same size as image) */
+.pending{background:#ff9800;}
+.installed{background:#28a745;}
+
+/* BUTTON GRID */
 .btn-grid{
 display:grid;
-grid-template-columns:repeat(2,1fr);
+grid-template-columns:repeat(3,1fr);
 gap:4px;
-margin-top:6px;
 }
 
+/* BUTTON */
 .btn{
 height:28px;
-font-size:11px;
-padding:0;
-}
-
-.topbar{
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:12px 15px;
-background:linear-gradient(90deg,#6a11cb,#2575fc);
-color:white;
-position:sticky;
-top:0;
-z-index:100;
-box-shadow:0 4px 15px rgba(0,0,0,0.2);
-}
-
-/* LEFT */
-.left-header h2{
-margin:0;
-font-size:16px;
-}
-
-.sub{
-font-size:11px;
-opacity:0.8;
-}
-
-/* RIGHT */
-.right-header{
-display:flex;
-gap:10px;
-align-items:center;
-}
-
-.right-header input{
-padding:8px 10px;
-border-radius:10px;
+font-size:10px;
 border:none;
-outline:none;
-width:150px;
-font-size:12px;
+border-radius:6px;
+cursor:pointer;
 }
 
-@media(max-width:600px){
-.container{
-grid-template-columns:1fr; /* 1 column on phone */
-}
-}
-
-/* LOGOUT */
-#logoutBtn{
-background:#222;
-color:white;
-padding:8px 12px;
-border-radius:8px;
-font-size:12px;
-}
-
+.download{background:#007bff;color:white;}
 .install{background:#28a745;color:white;}
 .delete{background:#dc3545;color:white;}
-.download{background:#007bff;color:white;}
+
+/* EMPTY */
+.empty{
+text-align:center;
+margin-top:40px;
+opacity:0.7;
+}
 </style>
 </head>
 
 <body>
 
-<header class="topbar">
+<header>
+<h2>📊 Converge Admin</h2>
 
-<div class="left-header">
-    <h2>📊 Converge Admin</h2>
-    <span class="sub">Dashboard</span>
+<div class="top-controls">
+<input type="text" id="search" placeholder="Search...">
+<button id="logoutBtn" onclick="logout()">Logout</button>
 </div>
-
-<div class="right-header">
-    <input type="text" id="search" placeholder="Search name...">
-    <button id="logoutBtn" onclick="logout()">Logout</button>
-</div>
-
 </header>
 
-<!-- LOGIN -->
-<div id="loginBox">
-<h3>Admin Login</h3>
-<input id="email" placeholder="Email">
-<input id="password" type="password" placeholder="Password">
-<button onclick="login()">Login</button>
+<!-- STATS -->
+<div class="stats">
+<div class="stat">
+<h3 id="total">0</h3>
+<p>Total</p>
 </div>
 
-<!-- DASHBOARD -->
-<div class="container" id="dashboard">
-<div id="list"></div>
+<div class="stat">
+<h3 id="installed">0</h3>
+<p>Installed</p>
 </div>
+
+<div class="stat">
+<h3 id="pending">0</h3>
+<p>Pending</p>
+</div>
+</div>
+
+<div class="container" id="list"></div>
 
 <!-- Firebase -->
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 
 <script>
 
@@ -241,55 +226,31 @@ projectId:"convergecrm-7c237"
 });
 
 const db = firebase.firestore();
-const auth = firebase.auth();
 
-function getStatusColor(status){
-return status === "Installed" ? "#28a745" : "#ff9800";
-}
-
-// LOGIN
-function login(){
-auth.signInWithEmailAndPassword(
-email.value,
-password.value
-).catch(()=>alert("Login Failed"));
-}
-
-function logout(){
-auth.signOut();
-}
-
-// AUTH
-auth.onAuthStateChanged(user=>{
-if(user){
-loginBox.style.display="none";
-dashboard.style.display="block";
-logoutBtn.style.display="inline-block";
-loadData();
-}else{
-loginBox.style.display="block";
-dashboard.style.display="none";
-logoutBtn.style.display="none";
-}
-});
-
-// LOAD DATA + SEARCH
 function loadData(){
 
-const searchInput = document.getElementById("search");
+const search = document.getElementById("search").value.toLowerCase();
 
-db.collection("applications").onSnapshot(snapshot=>{
+db.collection("applications").orderBy("date","desc")
+.onSnapshot(snapshot=>{
 
-let html = "";
+let html="";
+let total=0, installed=0, pending=0;
 
 snapshot.forEach(doc=>{
 const d = doc.data();
 
-// 🔍 SEARCH FILTER
-if(searchInput.value &&
-!d.name?.toLowerCase().includes(searchInput.value.toLowerCase())){
-return;
-}
+total++;
+
+if(d.status==="Installed") installed++;
+else pending++;
+
+const match =
+d.name?.toLowerCase().includes(search) ||
+d.phone?.includes(search) ||
+d.plan?.toLowerCase().includes(search);
+
+if(search && !match) return;
 
 html += `
 <div class="card">
@@ -300,19 +261,16 @@ html += `
 </div>
 
 <div class="right">
+
 <h3>${d.name || "No Name"}</h3>
 
 <div class="label">Plan</div>
 <div class="value">${d.plan}</div>
 
-<div class="label">Address</div>
-<div class="value">${d.address}</div>
-
 <div class="label">Contact</div>
 <div class="value">${d.phone}</div>
 
-<div class="label">Status</div>
-<span class="status" style="background:${getStatusColor(d.status)}">
+<span class="status ${d.status==="Installed"?"installed":"pending"}">
 ${d.status}
 </span>
 
@@ -348,34 +306,43 @@ onclick="deleteApp('${doc.id}')">
 `;
 });
 
-document.getElementById("list").innerHTML = html;
+document.getElementById("list").innerHTML =
+html || `<div class="empty">No data found</div>`;
+
+document.getElementById("total").innerText = total;
+document.getElementById("installed").innerText = installed;
+document.getElementById("pending").innerText = pending;
 
 });
-
-// 🔍 LIVE SEARCH
-searchInput.addEventListener("input", loadData);
-
 }
 
-// DOWNLOAD ALL
+// SEARCH
+document.getElementById("search").addEventListener("input", loadData);
+
+// ACTIONS
 function downloadAll(idURL,sigURL){
 window.open(idURL);
-setTimeout(()=>window.open(sigURL),500);
+setTimeout(()=>window.open(sigURL),400);
 }
 
-// UPDATE
 function markInstalled(id){
 db.collection("applications").doc(id).update({
 status:"Installed"
 });
 }
 
-// DELETE
 function deleteApp(id){
-if(confirm("Delete?")){
+if(confirm("Delete application?")){
 db.collection("applications").doc(id).delete();
 }
 }
+
+function logout(){
+alert("Logout logic here (optional)");
+}
+
+// INIT
+loadData();
 
 </script>
 
