@@ -311,7 +311,9 @@ html += `
 
 <div class="right">
 
-<h3>${d.name || "No Name"}</h3>
+<h3>
+${d.name || d.fullName || d.customerName || d.clientName || "No Name"}
+</h3>
 
 <div class="label">Plan</div>
 <div class="value">${d.plan}</div>
