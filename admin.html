@@ -2,37 +2,31 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Converge Admin Pro</title>
+<title>Converge Admin Pro Max</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
 *{box-sizing:border-box;}
-
 body{
 margin:0;
 font-family:Poppins;
 background:linear-gradient(135deg,#0d2b45,#1b4f72);
 color:white;
+overflow-x:hidden;
 }
 
-/* HEADER */
+/* ===== HEADER ===== */
 header{
 display:flex;
 justify-content:space-between;
 align-items:center;
 padding:14px 16px;
 background:linear-gradient(90deg,#6a11cb,#2575fc);
-box-shadow:0 5px 15px rgba(0,0,0,0.2);
-}
-
-header h2{
-margin:0;
-font-size:16px;
 }
 
 .top-controls{
-display:flex;
+display:none;
 gap:8px;
 }
 
@@ -41,7 +35,6 @@ padding:8px 10px;
 border-radius:10px;
 border:none;
 outline:none;
-width:150px;
 }
 
 #logoutBtn{
@@ -53,9 +46,46 @@ border-radius:10px;
 cursor:pointer;
 }
 
-/* STATS */
+/* ===== LOGIN ===== */
+.login-box{
+position:fixed;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+background:rgba(0,0,0,0.7);
+padding:25px;
+border-radius:20px;
+backdrop-filter:blur(15px);
+z-index:10;
+}
+
+.login-box input{
+display:block;
+width:220px;
+margin:10px 0;
+padding:10px;
+border-radius:10px;
+border:none;
+}
+
+.login-box button{
+padding:10px;
+border:none;
+border-radius:10px;
+background:#2575fc;
+color:white;
+cursor:pointer;
+}
+
+/* ===== BLUR BACKGROUND ===== */
+.blur{
+filter:blur(8px);
+pointer-events:none;
+}
+
+/* ===== STATS ===== */
 .stats{
-display:grid;
+display:none;
 grid-template-columns:repeat(3,1fr);
 gap:10px;
 padding:10px;
@@ -63,29 +93,19 @@ padding:10px;
 
 .stat{
 background:rgba(255,255,255,0.1);
-backdrop-filter:blur(10px);
 padding:12px;
 border-radius:12px;
 text-align:center;
+backdrop-filter:blur(10px);
 }
 
-.stat h3{
-margin:0;
-font-size:18px;
-}
-
-.stat p{
-margin:0;
-font-size:11px;
-opacity:0.8;
-}
-
-/* GRID */
+/* ===== GRID ===== */
 .container{
+display:none;
 padding:10px;
 display:grid;
 grid-template-columns:repeat(2,1fr);
-gap:10px;
+gap:12px;
 }
 
 @media(max-width:600px){
@@ -94,180 +114,132 @@ grid-template-columns:1fr;
 }
 }
 
-/* CARD */
-.card{
-background:rgba(0,0,0,0.7);
-border-radius:14px;
-padding:10px;
-display:grid;
-grid-template-columns:70px 1fr;
-gap:10px;
-transition:0.2s;
-}
-
-.card:hover{
-transform:scale(1.02);
-}
-
-/* LEFT IMAGES */
-.left{
-display:flex;
-flex-direction:column;
-gap:6px;
-}
-
-.left img{
-width:100%;
-height:60px;
-object-fit:cover;
-border-radius:6px;
-}
-
-/* RIGHT */
-.right h3{
-margin:0;
-font-size:13px;
-font-weight:600;
-}
-
-.label{
-font-size:10px;
-color:#aaa;
-}
-
-.value{
-font-size:11px;
-margin-bottom:4px;
-}
-
-/* STATUS */
-.status{
-display:inline-block;
-padding:3px 8px;
-border-radius:8px;
-font-size:10px;
-margin-bottom:6px;
-}
-
-.pending{background:#ff9800;}
-.installed{background:#28a745;}
-
-/* BUTTON GRID */
-.btn-grid{
-display:flex;
-flex-wrap:wrap;
-gap:6px;
-margin-top:6px;
-}
-
-.btn{
-display:flex;
-align-items:center;
-justify-content:center;
-gap:4px;
-padding:6px 8px;
-font-size:10px;
-border:none;
-border-radius:8px;
-cursor:pointer;
-min-width:48px;
-height:28px;
-
-background:rgba(255,255,255,0.08);
-color:white;
-backdrop-filter:blur(6px);
-
-transition:0.2s;
-}
-
-/* HOVER EFFECT */
-.btn:hover{
-transform:scale(1.05);
-background:rgba(255,255,255,0.15);
-}
-
-/* COLORS (soft, not harsh) */
-.btn.id{color:#4dabf7;}
-.btn.sign{color:#a78bfa;}
-.btn.all{color:#38bdf8;}
-.btn.install{color:#22c55e;}
-.btn.delete{color:#ef4444;}
-
+/* ===== CARD ===== */
 .card{
 background:rgba(255,255,255,0.08);
-backdrop-filter:blur(12px);
+backdrop-filter:blur(15px);
 border-radius:16px;
 padding:12px;
 display:grid;
 grid-template-columns:70px 1fr;
 gap:10px;
 box-shadow:0 8px 25px rgba(0,0,0,0.25);
-border:1px solid rgba(255,255,255,0.1);
-transition:0.25s;
+transition:0.2s;
 }
 
 .card:hover{
-transform:translateY(-3px) scale(1.01);
-box-shadow:0 15px 30px rgba(0,0,0,0.35);
+transform:translateY(-3px);
 }
 
-.right{
+/* LEFT */
+.left{
 display:flex;
 flex-direction:column;
-justify-content:space-between;
+gap:6px;
+}
+.left img{
+width:100%;
+height:60px;
+border-radius:6px;
+object-fit:cover;
 }
 
-.download{background:#007bff;color:white;}
-.install{background:#28a745;color:white;}
-.delete{background:#dc3545;color:white;}
+/* RIGHT */
+.right h3{
+margin:0;
+font-size:13px;
+}
+
+.label{font-size:10px;color:#aaa;}
+.value{font-size:11px;margin-bottom:4px;}
+
+/* STATUS */
+.status{
+display:block;
+padding:5px;
+border-radius:8px;
+font-size:10px;
+margin:6px 0;
+text-align:center;
+}
+.pending{background:#ff9800;}
+.installed{background:#28a745;}
+
+/* BUTTONS */
+.btn-grid{
+display:flex;
+gap:6px;
+flex-wrap:wrap;
+}
+
+.btn{
+flex:1;
+min-width:55px;
+height:28px;
+border:none;
+border-radius:8px;
+font-size:10px;
+cursor:pointer;
+background:rgba(255,255,255,0.1);
+color:white;
+}
+
+.btn:hover{
+background:rgba(255,255,255,0.2);
+}
+
+.btn.install{background:#22c55e;}
+.btn.delete{background:#ef4444;}
 
 /* EMPTY */
 .empty{
 text-align:center;
 margin-top:40px;
-opacity:0.7;
+opacity:0.6;
 }
 </style>
 </head>
 
 <body>
 
+<!-- LOGIN -->
+<div class="login-box" id="loginBox">
+<h3>Admin Login</h3>
+<input id="email" placeholder="Email">
+<input id="password" type="password" placeholder="Password">
+<button onclick="login()">Login</button>
+</div>
+
+<!-- MAIN -->
+<div id="mainContent" class="blur">
+
 <header>
 <h2>📊 Converge Admin</h2>
 
-<div class="top-controls">
+<div class="top-controls" id="topControls">
 <input type="text" id="search" placeholder="Search...">
 <button id="logoutBtn" onclick="logout()">Logout</button>
 </div>
 </header>
 
-<!-- STATS -->
-<div class="stats">
-<div class="stat">
-<h3 id="total">0</h3>
-<p>Total</p>
-</div>
-
-<div class="stat">
-<h3 id="installed">0</h3>
-<p>Installed</p>
-</div>
-
-<div class="stat">
-<h3 id="pending">0</h3>
-<p>Pending</p>
-</div>
+<div class="stats" id="stats">
+<div class="stat"><h3 id="total">0</h3><p>Total</p></div>
+<div class="stat"><h3 id="installed">0</h3><p>Installed</p></div>
+<div class="stat"><h3 id="pending">0</h3><p>Pending</p></div>
 </div>
 
 <div class="container" id="list"></div>
 
+</div>
+
 <!-- Firebase -->
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 
 <script>
 
-// CONFIG
+// FIREBASE CONFIG
 firebase.initializeApp({
 apiKey:"AIzaSyBwrJprjuU4BywFapZyw_SsBcsJAYo5OPU",
 authDomain:"convergecrm-7c237.firebaseapp.com",
@@ -275,9 +247,43 @@ projectId:"convergecrm-7c237"
 });
 
 const db = firebase.firestore();
+const auth = firebase.auth();
 
+auth.signOut();
+
+// LOGIN
+function login(){
+const email = document.getElementById("email").value;
+const pass = document.getElementById("password").value;
+
+auth.signInWithEmailAndPassword(email,pass)
+.then(()=>{})
+.catch(()=>alert("Login failed"));
+}
+
+// LOGOUT
+function logout(){
+auth.signOut();
+}
+
+// AUTH STATE
+auth.setPersistence(firebase.auth.Auth.Persistence.SESSION);
+auth.onAuthStateChanged(user=>{
+if(user){
+document.getElementById("loginBox").style.display="none";
+document.getElementById("mainContent").classList.remove("blur");
+document.getElementById("list").style.display="grid";
+document.getElementById("stats").style.display="grid";
+document.getElementById("topControls").style.display="flex";
+loadData();
+}else{
+document.getElementById("loginBox").style.display="block";
+document.getElementById("mainContent").classList.add("blur");
+}
+});
+
+// LOAD DATA
 function loadData(){
-
 const search = document.getElementById("search").value.toLowerCase();
 
 db.collection("applications").orderBy("date","desc")
@@ -290,20 +296,16 @@ snapshot.forEach(doc=>{
 const d = doc.data();
 
 total++;
-
 if(d.status==="Installed") installed++;
 else pending++;
 
-const match =
-d.name?.toLowerCase().includes(search) ||
-d.phone?.includes(search) ||
-d.plan?.toLowerCase().includes(search);
-
-if(search && !match) return;
+if(search &&
+!d.name?.toLowerCase().includes(search) &&
+!d.phone?.includes(search) &&
+!d.plan?.toLowerCase().includes(search)) return;
 
 html += `
 <div class="card">
-
 <div class="left">
 <img src="${d.idURL}">
 <img src="${d.sigURL}">
@@ -311,45 +313,27 @@ html += `
 
 <div class="right">
 
-<h3>
-${d.name || d.fullName || d.customerName || d.clientName || "No Name"}
-</h3>
+<h3>${d.name || "No Name"}</h3>
 
 <div class="label">Plan</div>
 <div class="value">${d.plan}</div>
 
 <div class="label">Address</div>
-<div class="value">${d.address || "No address"}</div>
+<div class="value">${d.address || "-"}</div>
 
 <div class="label">Contact</div>
 <div class="value">${d.phone}</div>
 
-<span class="status ${d.status==="Installed"?"installed":"pending"}">
+<div class="status ${d.status==="Installed"?"installed":"pending"}">
 ${d.status}
-</span>
+</div>
 
 <div class="btn-grid">
-
-<button class="btn id" onclick="window.open('${d.idURL}')">
-📄 ID
-</button>
-
-<button class="btn sign" onclick="window.open('${d.sigURL}')">
-✍️ Sign
-</button>
-
-<button class="btn all" onclick="downloadAll('${d.idURL}','${d.sigURL}')">
-⬇ All
-</button>
-
-<button class="btn install" onclick="markInstalled('${doc.id}')">
-✔ Done
-</button>
-
-<button class="btn delete" onclick="deleteApp('${doc.id}')">
-🗑
-</button>
-
+<button class="btn" onclick="window.open('${d.idURL}')">ID</button>
+<button class="btn" onclick="window.open('${d.sigURL}')">Sign</button>
+<button class="btn" onclick="downloadAll('${d.idURL}','${d.sigURL}')">All</button>
+<button class="btn install" onclick="markInstalled('${doc.id}')">✔</button>
+<button class="btn delete" onclick="deleteApp('${doc.id}')">🗑</button>
 </div>
 
 </div>
@@ -358,7 +342,7 @@ ${d.status}
 });
 
 document.getElementById("list").innerHTML =
-html || `<div class="empty">No data found</div>`;
+html || `<div class="empty">No applications yet</div>`;
 
 document.getElementById("total").innerText = total;
 document.getElementById("installed").innerText = installed;
@@ -367,33 +351,24 @@ document.getElementById("pending").innerText = pending;
 });
 }
 
-// SEARCH
-document.getElementById("search").addEventListener("input", loadData);
-
 // ACTIONS
-function downloadAll(idURL,sigURL){
-window.open(idURL);
-setTimeout(()=>window.open(sigURL),400);
+function downloadAll(id,sig){
+window.open(id);
+setTimeout(()=>window.open(sig),400);
 }
 
 function markInstalled(id){
-db.collection("applications").doc(id).update({
-status:"Installed"
-});
+db.collection("applications").doc(id).update({status:"Installed"});
 }
 
 function deleteApp(id){
-if(confirm("Delete application?")){
+if(confirm("Delete?")){
 db.collection("applications").doc(id).delete();
 }
 }
 
-function logout(){
-alert("Logout logic here (optional)");
-}
-
-// INIT
-loadData();
+// SEARCH
+document.getElementById("search").addEventListener("input", loadData);
 
 </script>
 
